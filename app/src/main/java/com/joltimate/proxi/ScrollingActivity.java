@@ -1,14 +1,16 @@
 package com.joltimate.proxi;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.firebase.client.DataSnapshot;
@@ -19,8 +21,9 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 
 public class ScrollingActivity extends AppCompatActivity {
-    Firebase myFirebaseRef;
-    ListView listView;
+    private final String fireBaseURL = "https://proxi.firebaseio.com/";
+    private Firebase myFirebaseRef;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +35,11 @@ public class ScrollingActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                composeAPost();
             }
         });
         Firebase.setAndroidContext(this);
-        myFirebaseRef = new Firebase("https://proxi.firebaseio.com/");
-        myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
+        myFirebaseRef = new Firebase(fireBaseURL);
         myFirebaseRef.child("message").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -57,13 +58,7 @@ public class ScrollingActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_view);
         setUpList(listView);
 
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(this);
-        builder.setTitle("Dialog");
-        builder.setMessage("Lorem ipsum dolor ....");
-        builder.setPositiveButton("OK", null);
-        builder.setNegativeButton("Cancel", null);
-        builder.show();
+
 
         // lolo lo l
     }
@@ -100,5 +95,36 @@ public class ScrollingActivity extends AppCompatActivity {
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
+    }
+
+    private void composeAPost() {
+        LayoutInflater linf = LayoutInflater.from(this);
+        final View inflator = linf.inflate(R.layout.dialog_form, null);
+        final EditText et1 = (EditText) inflator.findViewById(R.id.dialog_text);
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this);
+        builder.setTitle("Compose");
+        builder.setMessage("Lorem ipsum dolor ....");
+        builder.setView(inflator);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String editTextText = et1.getText().toString();
+                postMessageToFirebase(editTextText);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("Cancel");
+            }
+        });
+        builder.show();
+        //InputMethodManager imm = (InputMethodManager)getSystemService(Service.INPUT_METHOD_SERVICE);
+        //imm.showSoftInput()
+    }
+
+    private void postMessageToFirebase(String userTextPost) {
+        myFirebaseRef.child("message").setValue(userTextPost);
     }
 }
