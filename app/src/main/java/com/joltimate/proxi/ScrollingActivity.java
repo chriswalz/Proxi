@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -43,16 +44,37 @@ public class ScrollingActivity extends AppCompatActivity {
         myFirebaseRef.child("message").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if ( listView != null){
-                    ArrayList<String> singleStringList = new ArrayList<>();
-                    singleStringList.add(snapshot.getValue().toString());
-                    changeList(listView, singleStringList);
-                }
-                //System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+                //parseDataChangeSnapShot(snapshot);
             }
 
             @Override
             public void onCancelled(FirebaseError error) {
+            }
+        });
+        myFirebaseRef.child("message").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                parseChildEvent(dataSnapshot, s);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
         listView = (ListView) findViewById(R.id.list_view);
@@ -62,7 +84,13 @@ public class ScrollingActivity extends AppCompatActivity {
 
         // lolo lo l
     }
-
+    private void parseChildEvent(DataSnapshot snapshot, String s){ // todo check if null, check if is indeed a string
+        String newPost = snapshot.getValue(String.class);
+        System.out.println("Child event: " + newPost);
+        ArrayList<String> singleStringList = new ArrayList<>();
+        singleStringList.add(newPost);
+        changeList(listView, singleStringList);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -78,6 +106,16 @@ public class ScrollingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    private void parseDataChangeSnapShot(DataSnapshot snapshot){
+        if ( listView != null){
+            ArrayList<String> singleStringList = new ArrayList<>();
+            System.out.println(snapshot.getValue().toString());
+            singleStringList.add(snapshot.getValue().toString());
+            changeList(listView, singleStringList);
+        }
+        //System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+    }
+
     private void setUpList(ListView listView){
         String[] values = new String[] { "Android err", "iPhone", "WindowsMobile",
                 "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
@@ -102,7 +140,7 @@ public class ScrollingActivity extends AppCompatActivity {
         final View inflator = linf.inflate(R.layout.dialog_form, null);
         final EditText et1 = (EditText) inflator.findViewById(R.id.dialog_text);
         AlertDialog.Builder builder =
-                new AlertDialog.Builder(this);
+                new AlertDialog.Builder(getSupportActionBar().getThemedContext());
         builder.setTitle("Compose");
         builder.setMessage("Lorem ipsum dolor ....");
         builder.setView(inflator);
@@ -125,6 +163,7 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
     private void postMessageToFirebase(String userTextPost) {
-        myFirebaseRef.child("message").setValue(userTextPost);
+        myFirebaseRef.child("message").push().setValue(userTextPost);
+       // myFirebaseRef.child("message").setValue(userTextPost);
     }
 }
