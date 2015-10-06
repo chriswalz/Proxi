@@ -3,21 +3,21 @@ package com.joltimate.proxi;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-
-import java.util.ArrayList;
+import com.joltimate.proxi.Adapters.FeedRecyclerAdapter;
 
 public abstract class BaseClutterActivity extends AppCompatActivity {
-    protected ListView listView;
+    //protected ListView listView;
+    protected RecyclerView recyclerView;
+    protected FeedRecyclerAdapter feedRecyclerAdapter;
     protected FirebaseWrapper firebaseWrapper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +34,11 @@ public abstract class BaseClutterActivity extends AppCompatActivity {
         });
         Firebase.setAndroidContext(this);
 
-        listView = (ListView) findViewById(R.id.list_view);
-        firebaseWrapper = new FirebaseWrapper(listView, this);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        feedRecyclerAdapter = new FeedRecyclerAdapter();
+        recyclerView.setAdapter(feedRecyclerAdapter);
+        firebaseWrapper = new FirebaseWrapper(recyclerView, this);
 
     }
 
@@ -58,9 +61,9 @@ public abstract class BaseClutterActivity extends AppCompatActivity {
     // protected abstract void postMessageToFirebase(UserPost userPost);
     protected abstract void composeAPost();
 
-    public abstract void changeList(ListView listView, ArrayList<String> list);
+    public abstract void changeList(RecyclerView recyclerView, UserPost userPost);
 
-    protected abstract void parseDataChangeSnapShot(DataSnapshot snapshot);
+    //protected abstract void parseDataChangeSnapShot(DataSnapshot snapshot);
     //protected abstract void parseChildEvent(DataSnapshot snapshot, String s);
 
 }

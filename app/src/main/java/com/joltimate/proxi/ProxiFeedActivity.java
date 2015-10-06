@@ -3,31 +3,20 @@ package com.joltimate.proxi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
-
-import com.firebase.client.DataSnapshot;
-
-import java.util.ArrayList;
 
 public class ProxiFeedActivity extends BaseClutterActivity {
+    // todo use a recycler view, make a wrapper for reyclerview that holds adapter?
     @Override
-    public void changeList(ListView listView, ArrayList<String> list) {
-        final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(adapter);
-    }
-    @Override
-    protected void parseDataChangeSnapShot(DataSnapshot snapshot) {
-        if ( listView != null){
-            ArrayList<String> singleStringList = new ArrayList<>();
-            System.out.println(snapshot.getValue().toString());
-            singleStringList.add(snapshot.getValue().toString());
-            changeList(listView, singleStringList);
-        }
-        //System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+    public void changeList(RecyclerView recyclerView, UserPost userPost) {
+        //final StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+        //FeedRecyclerAdapter feedRecyclerView = new
+        //listView.setAdapter(adapter);
+        feedRecyclerAdapter.addEntry(userPost);
+
     }
 
 
@@ -65,3 +54,14 @@ public class ProxiFeedActivity extends BaseClutterActivity {
     }
 
 }
+
+    /*@Override THIS METHOD NO LONGER USED
+    protected void parseDataChangeSnapShot(DataSnapshot snapshot) {
+        if ( recyclerView != null){
+            ArrayList<String> singleStringList = new ArrayList<>();
+            System.out.println(snapshot.getValue().toString());
+            singleStringList.add(snapshot.getValue().toString());
+            changeList(recyclerView, singleStringList);
+        }
+        //System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+    } */

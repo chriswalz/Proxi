@@ -1,6 +1,6 @@
 package com.joltimate.proxi;
 
-import android.widget.ListView;
+import android.support.v7.widget.RecyclerView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -9,18 +9,16 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.FirebaseException;
 import com.firebase.client.ValueEventListener;
 
-import java.util.ArrayList;
-
 public class FirebaseWrapper {
     private final String fireBaseURL = "https://proxi.firebaseio.com/";
     private Firebase firebaseRef;
     private BaseClutterActivity baseClutterActivity;
-    private ListView listView;
+    private RecyclerView recyclerView;
 
-    public FirebaseWrapper(ListView listView, BaseClutterActivity baseClutterActivity) {
+    public FirebaseWrapper(RecyclerView recyclerView, BaseClutterActivity baseClutterActivity) {
         firebaseRef = new Firebase(fireBaseURL);
         setUpFirebase();
-        this.listView = listView;
+        this.recyclerView = recyclerView;
         this.baseClutterActivity = baseClutterActivity;
     }
 
@@ -77,8 +75,8 @@ public class FirebaseWrapper {
             newUserPost = new UserPost("Unknown", "0"); //todo user different id?
         }
         System.out.println("Child event: " + newUserPost.toString());
-        ArrayList<String> singleStringList = new ArrayList<>();
-        singleStringList.add(newUserPost.getMessage());
-        baseClutterActivity.changeList(listView, singleStringList);
+        //ArrayList<String> singleStringList = new ArrayList<>();
+        //singleStringList.add(newUserPost.getMessage());
+        baseClutterActivity.changeList(recyclerView, newUserPost);
     }
 }
