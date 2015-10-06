@@ -3,6 +3,7 @@ package com.joltimate.proxi.Adapters;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.joltimate.proxi.User;
 import com.joltimate.proxi.UserPost;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public BaseAdapter() {
         mDataset = new ArrayList<UserPost>();
-        mDataset.add(new UserPost("No Data Available", ""));
+        mDataset.add(new UserPost("No Data Available", User.AnonUser));
     }
 
     @Override
@@ -26,14 +27,14 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void addEntry(UserPost entry) {
         mDataset.add(entry);
-
+        notifyDataSetChanged();
     }
 
     public void addList(List<UserPost> entries) {
         //DebuggingTools.logCurrentTask();
         mDataset.clear();
         for (UserPost entry : entries) {
-            addEntry(entry);
+            mDataset.add(entry);
         }
         notifyDataSetChanged();
     }

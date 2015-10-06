@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.client.Firebase;
+import com.joltimate.proxi.Adapters.DividerItemDecoration;
 import com.joltimate.proxi.Adapters.FeedRecyclerAdapter;
 
 public abstract class BaseClutterActivity extends AppCompatActivity {
@@ -36,6 +38,8 @@ public abstract class BaseClutterActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(
+                new DividerItemDecoration(this, R.drawable.drawable_feed_divider));
         feedRecyclerAdapter = new FeedRecyclerAdapter();
         recyclerView.setAdapter(feedRecyclerAdapter);
         firebaseWrapper = new FirebaseWrapper(recyclerView, this);
@@ -53,7 +57,10 @@ public abstract class BaseClutterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Log.i("BaseClutter", "settings clicked");
             return true;
+        } else if (id == R.id.fake_post) {
+            firebaseWrapper.postAnonMessageToFirebase("This is a fake post");
         }
         return super.onOptionsItemSelected(item);
     }

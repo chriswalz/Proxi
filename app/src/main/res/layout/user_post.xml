@@ -7,5 +7,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Testing 1 2 3 " />
+        android:paddingBottom="8dp"
+        android:paddingLeft="@dimen/text_margin"
+        android:paddingRight="@dimen/text_margin"
+        android:paddingTop="8dp"
+        android:text="Placeholder Text"
+        android:textSize="18sp" />
 </LinearLayout>

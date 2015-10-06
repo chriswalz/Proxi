@@ -11,6 +11,8 @@ import com.firebase.client.ValueEventListener;
 
 public class FirebaseWrapper {
     private final String fireBaseURL = "https://proxi.firebaseio.com/";
+    private final String firebaseChildPost = "post";
+
     private Firebase firebaseRef;
     private BaseClutterActivity baseClutterActivity;
     private RecyclerView recyclerView;
@@ -22,13 +24,18 @@ public class FirebaseWrapper {
         this.baseClutterActivity = baseClutterActivity;
     }
 
-    public void postMessageToFirebase(UserPost userPost) {
-        firebaseRef.child("message").push().setValue(userPost);
+    public void postAnonMessageToFirebase(String message) {
+        postMessageToFirebase(message, User.AnonUser);
+    }
+
+    public void postMessageToFirebase(String message, User user) {
+        UserPost userPost = new UserPost(message, user);
+        firebaseRef.child(firebaseChildPost).push().setValue(userPost);
         // firebaseRef.child("message").setValue(userTextPost);
     }
 
     private void setUpFirebase() {
-        firebaseRef.child("message").addValueEventListener(new ValueEventListener() {
+        firebaseRef.child(firebaseChildPost).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 //parseDataChangeSnapShot(snapshot);
@@ -38,7 +45,7 @@ public class FirebaseWrapper {
             public void onCancelled(FirebaseError error) {
             }
         });
-        firebaseRef.child("message").addChildEventListener(new ChildEventListener() {
+        firebaseRef.child(firebaseChildPost).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 parseChildEvent(dataSnapshot, s);
@@ -72,11 +79,9 @@ public class FirebaseWrapper {
             newUserPost = snapshot.getValue(UserPost.class);
 
         } catch (FirebaseException fe) {
-            newUserPost = new UserPost("Unknown", "0"); //todo user different id?
+            newUserPost = new UserPost("Error loading post", User.AnonUser); //todo user different id?
         }
-        System.out.println("Child event: " + newUserPost.toString());
-        //ArrayList<String> singleStringList = new ArrayList<>();
-        //singleStringList.add(newUserPost.getMessage());
+        //System.out.println("Child event: " + newUserPost.toString());
         baseClutterActivity.changeList(recyclerView, newUserPost);
     }
 }

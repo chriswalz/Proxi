@@ -39,7 +39,7 @@ public class ProxiFeedActivity extends BaseClutterActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String editTextText = et1.getText().toString();
-                firebaseWrapper.postMessageToFirebase(new UserPost(editTextText, "1234")); //todo update userId
+                firebaseWrapper.postAnonMessageToFirebase(editTextText); //todo update userId
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
