@@ -35,7 +35,6 @@ public abstract class BaseClutterActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
 
         listView = (ListView) findViewById(R.id.list_view);
-        setUpList(listView);
         firebaseWrapper = new FirebaseWrapper(listView, this);
 
     }
@@ -58,8 +57,6 @@ public abstract class BaseClutterActivity extends AppCompatActivity {
 
     // protected abstract void postMessageToFirebase(UserPost userPost);
     protected abstract void composeAPost();
-
-    protected abstract void setUpList(ListView listView);
 
     public abstract void changeList(ListView listView, ArrayList<String> list);
 

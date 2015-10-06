@@ -12,7 +12,7 @@ import com.firebase.client.DataSnapshot;
 
 import java.util.ArrayList;
 
-public class ScrollingActivity extends BaseClutterActivity {
+public class ProxiFeedActivity extends BaseClutterActivity {
     @Override
     public void changeList(ListView listView, ArrayList<String> list) {
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
@@ -30,20 +30,6 @@ public class ScrollingActivity extends BaseClutterActivity {
         //System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
     }
 
-    @Override
-    protected void setUpList(ListView listView) {
-        String[] values = new String[] { "Android err", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
-        final ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-        changeList(listView, list);
-
-    }
 
     @Override
     protected void composeAPost() {
