@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/left_textview"
+        style="@style/base_textview"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        app:layout_widthPercent="70%" />
+
+    <ImageButton
+        android:id="@+id/top_right_textview"
+        style="@style/user_post_textview"
+        android:layout_toRightOf="@id/left_textview"
+        android:background="@null"
+        android:src="@drawable/ic_keyboard_arrow_up_24dp"
+        app:layout_widthPercent="30%" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:paddingLeft="@dimen/text_margin"
-        android:paddingRight="@dimen/text_margin"
-        android:paddingTop="8dp"
-        android:text="Placeholder Text"
-        android:textSize="18sp" />
-</LinearLayout>
+        android:id="@+id/middle_right_textview"
+        style="@style/base_textview"
+        android:layout_below="@id/top_right_textview"
+        android:layout_toRightOf="@id/left_textview"
+        android:gravity="center"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:text="-1"
+        app:layout_widthPercent="30%" />
+
+    <ImageButton
+        style="@style/user_post_textview"
+        android:layout_below="@id/middle_right_textview"
+        android:layout_toRightOf="@id/left_textview"
+        android:background="@null"
+        android:src="@drawable/ic_expand_more_24dp"
+        app:layout_widthPercent="30%" />
+</android.support.percent.PercentRelativeLayout>

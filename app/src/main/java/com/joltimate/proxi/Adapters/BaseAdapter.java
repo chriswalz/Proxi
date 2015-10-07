@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Chris on 7/9/2015.
  */
-public abstract class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
+public abstract class BaseAdapter extends RecyclerView.Adapter<UserPostHolder> {
     protected ArrayList<UserPost> mDataset;
 
     public BaseAdapter() {
@@ -26,7 +26,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void addEntry(UserPost entry) {
-        mDataset.add(entry);
+        mDataset.add(0, entry);
         notifyDataSetChanged();
     }
 
@@ -34,13 +34,13 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         //DebuggingTools.logCurrentTask();
         mDataset.clear();
         for (UserPost entry : entries) {
-            mDataset.add(entry);
+            mDataset.add(0, entry);
         }
         notifyDataSetChanged();
     }
 
-    public abstract ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i);
+    public abstract UserPostHolder onCreateViewHolder(ViewGroup viewGroup, int i);
 
-    public abstract void onBindViewHolder(ViewHolder viewHolder, int i);
+    public abstract void onBindViewHolder(UserPostHolder userPostHolder, int i);
 
 }

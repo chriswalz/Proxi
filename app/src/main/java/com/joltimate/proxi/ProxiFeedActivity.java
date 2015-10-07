@@ -12,9 +12,6 @@ public class ProxiFeedActivity extends BaseClutterActivity {
     // todo use a recycler view, make a wrapper for reyclerview that holds adapter?
     @Override
     public void changeList(RecyclerView recyclerView, UserPost userPost) {
-        //final StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, list);
-        //FeedRecyclerAdapter feedRecyclerView = new
-        //listView.setAdapter(adapter);
         feedRecyclerAdapter.addEntry(userPost);
 
     }
@@ -33,7 +30,6 @@ public class ProxiFeedActivity extends BaseClutterActivity {
             builder = new AlertDialog.Builder(getApplicationContext());
         }
         builder.setTitle("Compose");
-        builder.setMessage("Lorem ipsum dolor ....");
         builder.setView(inflator);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

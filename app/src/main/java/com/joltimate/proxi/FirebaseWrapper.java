@@ -1,6 +1,7 @@
 package com.joltimate.proxi;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -32,6 +33,15 @@ public class FirebaseWrapper {
         UserPost userPost = new UserPost(message, user);
         firebaseRef.child(firebaseChildPost).push().setValue(userPost);
         // firebaseRef.child("message").setValue(userTextPost);
+    }
+
+    public void postNumUpvotesToFirebase(String firebaseKey, int upvotes) {
+        if (firebaseKey != null) {
+            System.out.println("firebasekey was okay");
+            firebaseRef.child(firebaseChildPost + "/" + firebaseKey + "/upvotes").setValue(upvotes);
+        } else {
+            System.out.println("firebasekey was null");
+        }
     }
 
     private void setUpFirebase() {
@@ -77,6 +87,8 @@ public class FirebaseWrapper {
         UserPost newUserPost;
         try {
             newUserPost = snapshot.getValue(UserPost.class);
+            Log.i("FirebaseWrapper", "Key: " + snapshot.getKey());
+            newUserPost.firebaseKey = snapshot.getKey();
 
         } catch (FirebaseException fe) {
             newUserPost = new UserPost("Error loading post", User.AnonUser); //todo user different id?

@@ -16,10 +16,11 @@ import com.joltimate.proxi.Adapters.DividerItemDecoration;
 import com.joltimate.proxi.Adapters.FeedRecyclerAdapter;
 
 public abstract class BaseClutterActivity extends AppCompatActivity {
+    public static FirebaseWrapper firebaseWrapper;
     //protected ListView listView;
     protected RecyclerView recyclerView;
     protected FeedRecyclerAdapter feedRecyclerAdapter;
-    protected FirebaseWrapper firebaseWrapper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

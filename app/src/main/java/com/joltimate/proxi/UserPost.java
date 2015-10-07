@@ -6,12 +6,12 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 public class UserPost {
+    public int upvotes;
+    public String firebaseKey;
     private String message;
-    private int upvotes;
     private int reports;
     private String topic;
     private Location location;
-    private long postId;
     private Time timeStamp;
     private ArrayList<String> replies;
     private User user;

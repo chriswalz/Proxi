@@ -1,8 +1,8 @@
 package com.joltimate.proxi.Adapters;
 
+import android.support.percent.PercentRelativeLayout;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.joltimate.proxi.R;
 import com.joltimate.proxi.UserPost;
@@ -19,19 +19,22 @@ public class FeedRecyclerAdapter extends BaseAdapter {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public UserPostHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         // create a new view
-        LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(viewGroup.getContext())
+        PercentRelativeLayout percentRelativeLayout = (PercentRelativeLayout) LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.user_post, viewGroup, false);
-        ViewHolder vh = new UserPostHolder(linearLayout);
+        UserPostHolder vh = new UserPostHolder(percentRelativeLayout);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        UserPostHolder userPostHolder = (UserPostHolder) viewHolder;
-        String message = mDataset.get(i).getMessage();
-        userPostHolder.mTextView.setText(message);
+    public void onBindViewHolder(UserPostHolder userPostHolder, int i) {
+        UserPost userPost = mDataset.get(i);
+        userPostHolder.mUserPost = userPost;
+        String message = userPost.getMessage();
+        userPostHolder.mMessageTextView.setText(message);
+        int upvotes = userPost.upvotes;
+        userPostHolder.mUpvotesTextView.setText("" + upvotes);
     }
 
     public ArrayList<UserPost> getDataSet() {
